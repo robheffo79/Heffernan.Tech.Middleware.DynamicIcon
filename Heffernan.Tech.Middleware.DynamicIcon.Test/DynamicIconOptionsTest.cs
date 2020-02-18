@@ -33,13 +33,13 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
                 DefaultBackground = "C0FFEE",
                 DefaultForeground = "DEADB0",
                 Format = IconFormat.Ico,
-                FontName = "Comic Sans MS"
+                FontName = "Arial"
             };
 
             Assert.AreEqual("C0FFEE", options.DefaultBackground);
             Assert.AreEqual("DEADB0", options.DefaultForeground);
             Assert.AreEqual(IconFormat.Ico, options.Format);
-            Assert.AreEqual("Comic Sans MS", options.FontName);
+            Assert.AreEqual("Arial", options.FontName);
             Assert.AreEqual(128, options.MinimumSize);
             Assert.AreEqual(256, options.DefaultSize);
             Assert.AreEqual(512, options.MaximumSize);
@@ -93,6 +93,27 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
                 options.Route = String.Empty;
+            });
+        }
+
+        [TestMethod]
+        public void InvalidFontName()
+        {
+            DynamicIconOptions options = new DynamicIconOptions();
+
+            Assert.ThrowsException<ArgumentNullException>(() =>
+            {
+                options.FontName = null;
+            });
+
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                options.FontName = String.Empty;
+            });
+
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                options.FontName = "InvalidFontName";
             });
         }
     }

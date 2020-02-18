@@ -33,7 +33,7 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Renderer
         String Background { get; set; }
         String FontName { get; set; }
         String Foreground { get; set; }
-        ImageFormat ImageFormat { get; set; }
+        IconFormat IconFormat { get; set; }
         Int32 Size { get; set; }
         String Text { get; set; }
 

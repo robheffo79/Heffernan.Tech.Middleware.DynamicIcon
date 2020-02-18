@@ -25,7 +25,9 @@ SOFTWARE.
 using Heffernan.Tech.Middleware.DynamicIcon.Renderer;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,6 +74,12 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
             await _next(context);
         }
 
+        internal static Boolean FontExists(String fontName)
+        {
+            InstalledFontCollection fontCollection = new InstalledFontCollection();
+            return fontCollection.Families.Any(f => f.Name == fontName && f.IsStyleAvailable(FontStyle.Regular));
+        }
+
         private async Task BuildLetterImage(HttpContext context)
         {
             IIconRenderer renderer = GetRenderer(_options.Format);
@@ -96,35 +104,18 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
                     renderer = new RasterIconRenderer();
                     break;
 
-                case IconFormat.Svg:
-                    renderer = new VectorIconRenderer();
-                    break;
+                //case IconFormat.Svg:
+                //    renderer = new VectorIconRenderer();
+                //    break;
             }
 
             renderer.Size = _options.DefaultSize;
             renderer.FontName = _options.FontName;
             renderer.Background = _options.DefaultBackground;
             renderer.Foreground = _options.DefaultForeground;
-            renderer.ImageFormat = GetFormat(_options.Format);
+            renderer.IconFormat = _options.Format;
 
             return renderer;
-        }
-
-        private ImageFormat GetFormat(IconFormat format)
-        {
-            switch (format)
-            {
-                case IconFormat.Gif:
-                    return ImageFormat.Gif;
-
-                case IconFormat.Ico:
-                    return ImageFormat.Icon;
-
-                case IconFormat.Png:
-                    return ImageFormat.Png;
-            }
-
-            return null;
         }
 
         private void SetHeaders(HttpContext context, Int32 length)
@@ -169,6 +160,6 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
         Ico = 1,
         Png = 2,
         Gif = 3,
-        Svg = 4
+        //Svg = 4
     }
 }

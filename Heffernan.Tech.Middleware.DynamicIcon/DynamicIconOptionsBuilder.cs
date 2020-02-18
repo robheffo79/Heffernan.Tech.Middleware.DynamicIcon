@@ -70,6 +70,9 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
             if (String.IsNullOrWhiteSpace(font))
                 throw new ArgumentOutOfRangeException(nameof(font));
 
+            if (DynamicIconMiddleware.FontExists(font) == false)
+                throw new ArgumentException($"{nameof(font)} is not installed.");
+
             fontName = font;
             return this;
         }

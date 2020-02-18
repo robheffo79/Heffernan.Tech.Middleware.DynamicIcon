@@ -32,12 +32,31 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
         private Int32 minimumSize = DynamicIconMiddleware.MINIMUM_SIZE;
         private Int32 maximumSize = DynamicIconMiddleware.MAXIMUM_SIZE;
         private IconFormat imageFormat = DynamicIconMiddleware.DEFAULT_FORMAT;
+        private String font = DynamicIconMiddleware.DEFAULT_FONT;
 
         public Int32 DefaultSize { get; set; } = DynamicIconMiddleware.DEFAULT_SIZE;
-        public String FontName { get; set; } = DynamicIconMiddleware.DEFAULT_FONT;
         public String DefaultBackground { get; set; } = DynamicIconMiddleware.DEFAULT_BACKGROUND;
         public String DefaultForeground { get; set; } = DynamicIconMiddleware.DEFAULT_FOREGROUND;
         public TimeSpan? CacheFor { get; set; } = new TimeSpan(DynamicIconMiddleware.DEFAULT_CACHE);
+
+        public String FontName
+        {
+            get => font;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(value));
+
+                if (String.IsNullOrWhiteSpace(value))
+                    throw new ArgumentOutOfRangeException(nameof(value));
+
+                if (DynamicIconMiddleware.FontExists(value) == false)
+                    throw new ArgumentException($"{nameof(FontName)} is not installed.");
+
+                font = value;
+            }
+        }
+
 
         public String Route
         {

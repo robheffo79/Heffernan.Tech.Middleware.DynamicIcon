@@ -15,7 +15,7 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
                 DynamicIconOptions options = builder.UseDefaultBackground("C0FFEE")
                                                     .UseDefaultForeground("DEADB0")
                                                     .UseDefaultFormat(IconFormat.Ico)
-                                                    .UseFontName("Comic Sans MS")
+                                                    .UseFontName("Arial")
                                                     .UseMinimumSize(128)
                                                     .UseDefaultSize(256)
                                                     .UseMaximumSize(512)
@@ -25,7 +25,7 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
                 Assert.AreEqual("C0FFEE", options.DefaultBackground);
                 Assert.AreEqual("DEADB0", options.DefaultForeground);
                 Assert.AreEqual(IconFormat.Ico, options.Format);
-                Assert.AreEqual("Comic Sans MS", options.FontName);
+                Assert.AreEqual("Arial", options.FontName);
                 Assert.AreEqual(128, options.MinimumSize);
                 Assert.AreEqual(256, options.DefaultSize);
                 Assert.AreEqual(512, options.MaximumSize);
@@ -93,6 +93,11 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
                 builder.UseFontName(String.Empty);
+            });
+
+            Assert.ThrowsException<ArgumentException>(() =>
+            {
+                builder.UseFontName("InvalidFontName");
             });
         }
 

@@ -31,7 +31,7 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Renderer
     internal class VectorIconRenderer : IIconRenderer
     {
         public Int32 Size { get; set; }
-        public ImageFormat ImageFormat { get; set; }
+        public IconFormat IconFormat { get; set; }
         public String FontName { get; set; }
         public String Background { get; set; }
         public String Foreground { get; set; }

@@ -34,7 +34,7 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Renderer
     internal class RasterIconRenderer : IIconRenderer
     {
         public Int32 Size { get; set; }
-        public ImageFormat ImageFormat { get; set; }
+        public IconFormat IconFormat { get; set; }
         public String FontName { get; set; }
         public String Background { get; set; }
         public String Foreground { get; set; }
@@ -57,12 +57,29 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Renderer
 
                         using (MemoryStream ms = new MemoryStream())
                         {
-                            image.Save(ms, ImageFormat);
+                            image.Save(ms, GetFormat(IconFormat));
                             return ms.ToArray();
                         }
                     }
                 }
             });
+        }
+
+        private ImageFormat GetFormat(IconFormat format)
+        {
+            switch (format)
+            {
+                case IconFormat.Gif:
+                    return ImageFormat.Gif;
+
+                case IconFormat.Ico:
+                    return ImageFormat.Icon;
+
+                case IconFormat.Png:
+                    return ImageFormat.Png;
+            }
+
+            return null;
         }
 
         private void DrawText(Graphics gfx)
