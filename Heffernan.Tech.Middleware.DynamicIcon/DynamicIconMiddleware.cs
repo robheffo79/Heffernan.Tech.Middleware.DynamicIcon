@@ -44,6 +44,7 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
         public const Int32 DEFAULT_SIZE = 64;
         public const IconFormat DEFAULT_FORMAT = IconFormat.Png;
         public const Int64 DEFAULT_CACHE = 31556926000000000;
+        public const Int32 MAXIMUM_TEXT_LENGTH = 2;
 
         private readonly RequestDelegate _next;
         private readonly DynamicIconOptions _options;
@@ -150,12 +151,19 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
 
         private String GetText(HttpContext context)
         {
+            String text = String.Empty;
+
             if (context.Request.Query.ContainsKey("t"))
             {
-                return context.Request.Query["t"].First();
+                text = context.Request.Query["t"].First()
+                                                 .Trim()
+                                                 .ToUpperInvariant();
             }
 
-            return null;
+            if (text.Length > MAXIMUM_TEXT_LENGTH)
+                throw new InvalidOperationException("Text length is too long.");
+
+            return text;
         }
     }
 

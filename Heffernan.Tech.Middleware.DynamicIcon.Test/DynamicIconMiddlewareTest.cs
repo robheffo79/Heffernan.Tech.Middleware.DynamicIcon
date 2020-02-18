@@ -22,7 +22,8 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
 
             DynamicIconMiddleware middleware = new DynamicIconMiddleware(next: (innerHttpContext) =>
             {
-                throw new Exception("Test");
+                innerHttpContext.Response.StatusCode = 204;
+                return Task.CompletedTask;
             }, options);
 
             HttpContext context = CreateContext("https://localhost/images/dynamicicon?t=DI");
@@ -51,6 +52,23 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
             Assert.AreEqual(204, context.Response.StatusCode);
 
             context.Response.Body.Dispose();
+        }
+
+        [TestMethod]
+        public void LongText()
+        {
+            Assert.ThrowsExceptionAsync<InvalidOperationException>(async () =>
+            {
+                DynamicIconOptions options = new DynamicIconOptions();
+                DynamicIconMiddleware middleware = new DynamicIconMiddleware(next: (innerHttpContext) =>
+                {
+                    innerHttpContext.Response.StatusCode = 204;
+                    return Task.CompletedTask;
+                }, options);
+
+                HttpContext context = CreateContext("https://localhost/images/dynamicicon?t=TooLong");
+                await middleware.InvokeAsync(context);
+            });
         }
 
         private Boolean IsValidImage(Stream body, Int32 expectedSize)
