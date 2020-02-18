@@ -133,6 +133,10 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
                 case IconFormat.Png:
                     context.Response.ContentType = "image/png";
                     break;
+
+                //case IconFormat.Svg:
+                //    context.Response.ContentType = "image/svg+xml";
+                //    break;
             }
 
             context.Response.ContentLength = length;
