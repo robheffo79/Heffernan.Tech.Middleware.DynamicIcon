@@ -25,6 +25,7 @@ SOFTWARE.
 using Heffernan.Tech.Middleware.DynamicIcon.Renderer;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
@@ -79,6 +80,16 @@ namespace Heffernan.Tech.Middleware.DynamicIcon
         {
             InstalledFontCollection fontCollection = new InstalledFontCollection();
             return fontCollection.Families.Any(f => f.Name == fontName && f.IsStyleAvailable(FontStyle.Regular));
+        }
+
+        public static IEnumerable<String> InstalledFonts
+        {
+            get
+            {
+                InstalledFontCollection fontCollection = new InstalledFontCollection();
+                return fontCollection.Families.Where(f => f.IsStyleAvailable(FontStyle.Regular))
+                                              .Select(f => f.Name);
+            }
         }
 
         private async Task BuildLetterImage(HttpContext context)

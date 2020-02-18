@@ -14,6 +14,18 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
     public class DynamicIconMiddlewareTest
     {
         [TestMethod]
+        public void InstalledFonts()
+        {
+            IEnumerable<String> fonts = DynamicIconMiddleware.InstalledFonts;
+            Assert.IsTrue(fonts.Any());
+
+            foreach (String font in fonts)
+            {
+                Console.WriteLine($"Installed Font: {font}");
+            }
+        }
+
+        [TestMethod]
         public async Task DefaultOptions()
         {
             DynamicIconOptions options = new DynamicIconOptions();
