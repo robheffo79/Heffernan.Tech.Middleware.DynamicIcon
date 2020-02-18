@@ -30,7 +30,7 @@ namespace Heffernan.Tech.Middleware.DynamicIcon.Test
         {
             DynamicIconOptions options = new DynamicIconOptions();
             options.DefaultSize = 128;
-            options.FontName = "Ubuntu";
+            options.FontName = DynamicIconMiddleware.InstalledFonts.First();
 
             DynamicIconMiddleware middleware = new DynamicIconMiddleware(next: (innerHttpContext) =>
             {
