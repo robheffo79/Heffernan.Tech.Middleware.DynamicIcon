@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 
 namespace Heffernan.Tech.Middleware.DynamicIcon.Renderer
 {
-    internal class RasterIconRenderer : IIconRenderer
+    internal partial class RasterIconRenderer : IIconRenderer
     {
         public Int32 Size { get; set; }
         public IconFormat IconFormat { get; set; }
